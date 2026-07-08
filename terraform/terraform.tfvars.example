@@ -1,0 +1,26 @@
+aws_region     = "eu-west-1"
+gitlab_url     = "https://gitlab.com"
+oidc_audience  = "https://gitlab.com"
+
+# Set to false if a GitLab OIDC provider for gitlab_url already exists in the account
+create_oidc_provider = true
+
+role_name      = "gitlab-ci-ssm-reader"
+
+# Restrict to a specific project + branch (recommended for production)
+allowed_sub = "project_path:mygroup/myproject:ref_type:branch:ref:master"
+
+# Grant read access to all parameters under /myapp/prod/
+ssm_parameter_arns = [
+  "arn:aws:ssm:eu-west-1:123456789012:parameter/myapp/prod/*",
+]
+
+# Only needed if you use a customer-managed KMS key for SecureString parameters
+kms_key_arns = [
+  # "arn:aws:kms:eu-west-1:123456789012:key/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+]
+
+tags = {
+  ManagedBy   = "terraform"
+  Project     = "gitlab-ci-ssm"
+}
